@@ -28,7 +28,7 @@ const LoginScreen = ({ location, history }) => {
   const submit = (e) => {
     e.preventDefault();
     dispatch(login(email, password));
-  }
+  };
 
   return (
     <FormContainer>
@@ -36,7 +36,7 @@ const LoginScreen = ({ location, history }) => {
       {error && <Message variant='danger'>{error}</Message>}
       {loading && <Loader />}
 
-      <Form onSubmit={submit}>
+      <Form onSubmit={(e) => submit(e)}>
         <Form.Group controlId='email'>
           <Form.Label>Email Address</Form.Label>
           <Form.Control placeholder='Enter email' type='email' value={email} onChange={(e) => setEmail(e.target.value)}></Form.Control>
