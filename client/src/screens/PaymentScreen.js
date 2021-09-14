@@ -1,59 +1,145 @@
-import React, { useState } from 'react';
-import { Form, Button, Col } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Form, Button, Col, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-
 import FormContainer from '../component/FormContainer';
 import CheckoutSteps from '../component/CheckoutSteps';
 import { savePaymentMethod } from '../action/cart';
-
+import { usePaystackPayment } from 'react-paystack';
+import Message from '../component/Message';
+import { payOrder } from '../action/order';
+import { useParams } from 'react-router-dom';
 const PaymentScreen = ({ history }) => {
+	const { id } = useParams();
+	const dispatch = useDispatch();
+	const cart = useSelector((state) => state.cart);
+	const { shippingAddress } = cart;
+	const [isPaystackselect, setPayment] = useState(false);
+	const [message, setMessage] = useState([]);
+	const [isError, setError] = useState(false);
+	const [userEmail, setEmail] = useState([]);
+	const [userFullName, setFullName] = useState([]);
+	const [paymentAmount, setAmount] = useState([]);
 
-  const cart = useSelector(state => state.cart);
-  const { shippingAddress } = cart;
+	if (!shippingAddress) {
+		history.push('/shipping');
+	}
 
-  if (!shippingAddress) { history.push('/shipping') };
+	const initializePayment = usePaystackPayment({
+		currency: 'NGN',
+		channels: ['card', 'bank', 'ussd', 'qr', 'mobile_money', 'bank_transfer'],
+		email: userEmail,
+		amount: paymentAmount,
+		publicKey: process.env.REACT_APP_PAYSTACK_KEY,
+	});
 
-  const [paymentMethod, setPaymentMethod] = useState('Paypal');
+	const handleChangeEmail = (e) => {
+		setEmail(e.target.value);
+	};
 
-  const dispatch = useDispatch();
+	const handleChangeAmount = (e) => {
+		setAmount(e.target.value);
+	};
+	const handleChangeFullName = (e) => {
+		setFullName(e.target.value);
+	};
 
-  const submit = (e) => {
-    e.preventDefault();
+	const handlePay = () => {
+		const onSuccess = (reference) => {
+			dispatch(
+				payOrder(id, {
+					reference: reference,
+				})
+			);
+		};
 
-    dispatch(savePaymentMethod(paymentMethod));
-    history.push('/placeorder');
-  };
+		const onClose = () => {
+			setPayment(false);
+			setError(true);
+			setMessage('Unsucessful Transaction');
+		};
 
-  return (
-    <FormContainer>
-      <CheckoutSteps step1 step2 step3 />
-      <h1>Payment Method</h1>
-      <Form onSubmit={(e) => submit(e)}>
+		initializePayment(onSuccess, onClose);
+	};
 
-        <Form.Group controlId='address'>
-          <Form.Label as='legend'>Select Method</Form.Label>
+	const [paymentMethod, setPaymentMethod] = useState('Paypal');
 
-          <Col>
-            <Form.Check
-              type='radio'
-              label='Paypal or Credit card'
-              id='Paypal'
-              name='paymentMethod'
-              value='Paypal'
-              checked
-              onClick={(e) => setPaymentMethod(e.target.value)}
-            >
+	const submit = (e) => {
+		e.preventDefault();
 
-            </Form.Check>
-          </Col>
-        </Form.Group>
+		dispatch(savePaymentMethod(paymentMethod));
+		history.push('/placeorder');
+	};
 
+	return (
+		<FormContainer>
+			<CheckoutSteps step1 step2 step3 />
 
-        <Button type='submit' variant='primary'>Continue</Button>
+			<h1>Payment Method</h1>
+			<Form onSubmit={(e) => submit(e)}>
+				<Form.Group controlId='address'>
+					<Form.Label as='legend'>Select Method</Form.Label>
 
-      </Form>
-    </FormContainer>
-  );
+					<Col>
+						<Form.Check
+							type='radio'
+							label='Paypal or Credit card'
+							id='Paypal'
+							name='paymentMethod'
+							value='Paypal'
+							checked
+							onClick={(e) => {
+								setError(false);
+								setPayment(false);
+								setPaymentMethod(e.target.value);
+							}}></Form.Check>
+					</Col>
+					<Col>
+						<Form.Check
+							type='radio'
+							label='Paystack'
+							id='Paystack'
+							name='paymentMethod'
+							value='Paystack'
+							onClick={(e) => {
+								setError(false);
+								setPayment(true);
+								setPaymentMethod(e.target.value);
+							}}></Form.Check>
+					</Col>
+				</Form.Group>
+				{isPaystackselect ? (
+					<Row>
+						<Col>
+							<Form>
+								<Form.Group className='mb-3' controlId='exampleForm.ControlInput1'>
+									<Form.Label>Full name</Form.Label>
+									<Form.Control type='text' placeholder='austine...' onChange={handleChangeFullName} />
+								</Form.Group>
+								<Form.Group className='mb-3' controlId='exampleForm.ControlInput1'>
+									<Form.Label>Email address</Form.Label>
+									<Form.Control type='email' placeholder='name@example.com' onChange={handleChangeEmail} />
+								</Form.Group>
+								<Form.Group className='mb-3' controlId='exampleForm.ControlInput1'>
+									<Form.Label>Amount</Form.Label>
+									<Form.Control type='text' placeholder='NGN..' onChange={handleChangeAmount} />
+								</Form.Group>
+								<img className='payment-btn' src={'/images/payment-method/paystack.png'} onClick={handlePay} />
+							</Form>
+						</Col>
+					</Row>
+				) : undefined}
+				{isError ? (
+					<Message>
+						<h4>{message}</h4>
+					</Message>
+				) : undefined}
+
+				<Button type='submit' variant='primary'>
+					Continue
+				</Button>
+			</Form>
+		</FormContainer>
+	);
 };
 
 export default PaymentScreen;
