@@ -1,20 +1,33 @@
 main {
-  min-height: 80vh;
+	min-height: 80vh;
 }
 
 h1 {
-  font-size: 1.8rem;
-  padding: 1rem 0;
+	font-size: 1.8rem;
+	padding: 1rem 0;
 }
 
 h2 {
-  font-size: 1.4rem;
-  padding: 0.5rem 0;
+	font-size: 1.4rem;
+	padding: 0.5rem 0;
 }
 
 h3 {
-  padding: 1rem 0;
+	padding: 1rem 0;
 }
-.rating span{
-  margin: 0.1rem 0;
+.rating span {
+	margin: 0.1rem 0;
+}
+
+.order_table {
+	margin-top: 6%;
+}
+
+.order_top {
+	margin-top: 3%;
+}
+
+.order_btn {
+	border-radius: 5px;
+	background-color: #6c6c05;
 }
