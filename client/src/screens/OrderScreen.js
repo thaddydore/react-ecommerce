@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-
+import CurrencyFormat from 'react-currency-format';
 import Message from '../component/Message';
 import Loader from '../component/Loader';
 import { getOrderDetails } from '../action/order';
@@ -92,7 +92,14 @@ const OrderScreen = ({ match }) => {
 												</Col>
 
 												<Col md={4}>
-													{item.qty} x ${item.price} = ${item.qty * item.price}
+													{item.qty} x{' '}
+													<CurrencyFormat value={item.price} displayType={'text'} thousandSeparator={true} prefix={'#'} /> ={' '}
+													<CurrencyFormat
+														value={item.qty * item.price}
+														displayType={'text'}
+														thousandSeparator={true}
+														prefix={'#'}
+													/>
 												</Col>
 											</Row>
 										</ListGroup.Item>
@@ -113,28 +120,36 @@ const OrderScreen = ({ match }) => {
 							<ListGroup.Item>
 								<Row>
 									<Col>Items</Col>
-									<Col>${order.itemsPrice}</Col>
+									<Col>
+										<CurrencyFormat value={order.itemsPrice} displayType={'text'} thousandSeparator={true} prefix={'#'} />
+									</Col>
 								</Row>
 							</ListGroup.Item>
 
 							<ListGroup.Item>
 								<Row>
 									<Col>Shipping</Col>
-									<Col>${order.shippingPrice}</Col>
+									<Col>
+										<CurrencyFormat value={order.shippingPrice} displayType={'text'} thousandSeparator={true} prefix={'#'} />
+									</Col>
 								</Row>
 							</ListGroup.Item>
 
 							<ListGroup.Item>
 								<Row>
 									<Col>Tax</Col>
-									<Col>${order.taxPrice}</Col>
+									<Col>
+										<CurrencyFormat value={order.taxPrice} displayType={'text'} thousandSeparator={true} prefix={'#'} />
+									</Col>
 								</Row>
 							</ListGroup.Item>
 
 							<ListGroup.Item>
 								<Row>
 									<Col>Total</Col>
-									<Col>${order.totalPrice}</Col>
+									<Col>
+										<CurrencyFormat value={order.totalPrice} displayType={'text'} thousandSeparator={true} prefix={'#'} />
+									</Col>
 								</Row>
 							</ListGroup.Item>
 						</ListGroup>
