@@ -1,7 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+<<<<<<< HEAD
 import 'antd/dist/antd.css';
+=======
+// import logo from './logo.svg';
+// import './App.css';
+>>>>>>> 29e69c7f2e582d0fa29a88c1d9928d53fdd21e29
 import store from './store.js';
 import './bootstrap.min.css';
 import './index.css';

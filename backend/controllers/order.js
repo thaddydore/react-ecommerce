@@ -53,7 +53,7 @@ const getOrderById = asyncHandler(async (req, res) => {
  */
 const updateOrderToPaid = asyncHandler(async (req, res) => {
 	const order = await Order.findById(req.params.id);
-	console.log('on', order);
+
 	if (order) {
 		order.isPaid = true;
 		order.paidAt = Date.now();
@@ -81,7 +81,6 @@ const getMyOrders = asyncHandler(async (req, res) => {
 	const orders = await Order.find({ user: req.user._id });
 
 	res.json(orders);
-	console.log('my', orders);
 });
 
 export { addOrderItems, getOrderById, updateOrderToPaid, getMyOrders };

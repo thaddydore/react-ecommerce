@@ -41,7 +41,11 @@ export const createOrder = (order) => async (dispatch, getState) => {
 	}
 };
 
+<<<<<<< HEAD
 export const getOrderDetails = (id, isSingle) => async (dispatch, getState) => {
+=======
+export const getOrderDetails = (id) => async (dispatch, getState) => {
+>>>>>>> 29e69c7f2e582d0fa29a88c1d9928d53fdd21e29
 	try {
 		dispatch({ type: ORDER_DETAILS_REQUEST });
 
