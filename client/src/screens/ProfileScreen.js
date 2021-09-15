@@ -15,7 +15,6 @@ const ProfileScreen = ({ history, order }) => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
-	const [orders, setOrder] = useState([]);
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [message, setMessage] = useState(null);
 
@@ -45,7 +44,6 @@ const ProfileScreen = ({ history, order }) => {
 
 	useEffect(() => {
 		dispatch(getOrderDetails());
-		setOrder(order.order);
 	}, []);
 
 	const submit = (e) => {
@@ -126,7 +124,7 @@ const ProfileScreen = ({ history, order }) => {
 								</tr>
 							</thead>
 							<tbody>
-								{orders.map((item, index) => {
+								{order.order?.map((item, index) => {
 									return index < max ? (
 										<tr key={index}>
 											<td>{item._id}</td>
