@@ -101,20 +101,22 @@ const PaymentScreen = ({ history }) => {
 				<Form.Group controlId='address'>
 					<Form.Label as='legend'>Select Method</Form.Label>
 
-					<Col>
-						<Form.Check
-							type='radio'
-							label='Paypal or Credit card'
-							id='Paypal'
-							name='paymentMethod'
-							value='Paypal'
-							checked
-							onClick={(e) => {
-								setError(false);
-								setPayment(false);
-								setPaymentMethod(e.target.value);
-							}}></Form.Check>
-					</Col>
+					{
+						// <Col>
+						// 	<Form.Check
+						// 		type='radio'
+						// 		label='Paypal or Credit card'
+						// 		id='Paypal'
+						// 		name='paymentMethod'
+						// 		value='Paypal'
+						// 		checked
+						// 		onClick={(e) => {
+						// 			setError(false);
+						// 			setPayment(false);
+						// 			setPaymentMethod(e.target.value);
+						// 		}}></Form.Check>
+						// </Col>
+					}
 					<Col>
 						<Form.Check
 							type='radio'
