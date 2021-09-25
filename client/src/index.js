@@ -9,6 +9,41 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// Set up axios request interceptors
+axios.interceptors.request.use(
+	function (config) {
+
+		config.baseURL = process.env.REACT_APP_BASE_URL;
+
+		return config
+	},
+	function (error) {
+
+		alert('An error occured!')
+		return Promise.reject(error)
+	}
+)
+
+// Axios Response Interceptor
+axios.interceptors.response.use(null, function (error) {
+
+	if (updateOnlineStatus() === 'offline') {
+		error = { message: 'You are currently offline. Kindly turn on your network or try again' }
+		return Promise.reject(error)
+	}
+
+	return Promise.reject(error)
+})
+
+function updateOnlineStatus() {
+	let onLineStatus;
+	return onLineStatus = navigator.onLine ? 'online' : 'offline';
+};
+
+window.addEventListener('offline', updateOnlineStatus);
+window.addEventListener('online', updateOnlineStatus);
+
+
 ReactDOM.render(
 	<Provider store={store}>
 		<App />
