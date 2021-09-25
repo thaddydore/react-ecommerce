@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import axios from 'axios';
 // import logo from './logo.svg';
 // import './App.css';
 import store from './store.js';
