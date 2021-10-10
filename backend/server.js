@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import colors from 'colors';
 import connectDb from './config/db.js';
 import productRoute from './route/product.js';
@@ -13,7 +14,7 @@ const app = express();
 
 connectDb();
 //connect the database
-
+app.options('*', cors()) //enable preflight cors
 //parse json data
 app.use(express.json());
 
