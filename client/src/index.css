@@ -31,3 +31,11 @@ h3 {
 	border-radius: 5px;
 	background-color: #6c6c05;
 }
+
+.isinvalid {
+	color: red;
+}
+
+.isvalid {
+	color: green;
+}
