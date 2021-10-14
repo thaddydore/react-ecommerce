@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-
+import CurrencyFormat from 'react-currency-format';
 import Message from '../component/Message';
 import CheckoutSteps from '../component/CheckoutSteps';
 import { createOrder } from '../action/order';
@@ -84,7 +84,14 @@ const PlaceorderScreen = ({ history }) => {
 												</Col>
 
 												<Col md={4}>
-													{item.qty} x ${item.price} = ${item.qty * item.price}
+													{item.qty} x
+													<CurrencyFormat value={item.price} displayType={'text'} thousandSeparator={true} prefix={'#'} /> =
+													<CurrencyFormat
+														value={item.qty * item.price}
+														displayType={'text'}
+														thousandSeparator={true}
+														prefix={'#'}
+													/>
 												</Col>
 											</Row>
 										</ListGroup.Item>
@@ -105,28 +112,36 @@ const PlaceorderScreen = ({ history }) => {
 							<ListGroup.Item>
 								<Row>
 									<Col>Items</Col>
-									<Col>${cart.itemsPrice}</Col>
+									<Col>
+										<CurrencyFormat value={cart.itemsPrice} displayType={'text'} thousandSeparator={true} prefix={'#'} />
+									</Col>
 								</Row>
 							</ListGroup.Item>
 
 							<ListGroup.Item>
 								<Row>
 									<Col>Shipping</Col>
-									<Col>${cart.shippingPrice}</Col>
+									<Col>
+										<CurrencyFormat value={cart.shippingPrice} displayType={'text'} thousandSeparator={true} prefix={'#'} />
+									</Col>
 								</Row>
 							</ListGroup.Item>
 
 							<ListGroup.Item>
 								<Row>
 									<Col>Tax</Col>
-									<Col>${cart.taxPrice}</Col>
+									<Col>
+										<CurrencyFormat value={cart.taxPrice} displayType={'text'} thousandSeparator={true} prefix={'#'} />
+									</Col>
 								</Row>
 							</ListGroup.Item>
 
 							<ListGroup.Item>
 								<Row>
 									<Col>Total</Col>
-									<Col>${cart.totalPrice}</Col>
+									<Col>
+										<CurrencyFormat value={cart.totalPrice} displayType={'text'} thousandSeparator={true} prefix={'#'} />
+									</Col>
 								</Row>
 							</ListGroup.Item>
 
